@@ -3,7 +3,7 @@
 const Homey = require('homey');
 const { SENSOR_NAMES, DEFAULT_POLLING_INTERVAL, THERMOSTAT_MODES } = require('../../lib/api/constants');
 const LocalMaestroClient = require('../../lib/api/LocalMaestroClient');
-const SocketIOMaestroClient = require('../../lib/api/SocketIOMaestroClient');
+const BridgeMaestroClient = require('../../lib/api/BridgeMaestroClient');
 
 class MaestroStoveDevice extends Homey.Device {
 
@@ -36,49 +36,19 @@ class MaestroStoveDevice extends Homey.Device {
           this.log('Model fetch successful - using cloud API for M2/M3 stove');
           this.apiClient = cloudClient;
         } catch (modelError) {
-          // Model fetch failed - this is an M1 stove, use Socket.IO
-          this.log('Model fetch failed - detected M1 stove, switching to Socket.IO');
+          // Model fetch failed - this is an M1 stove
+          // Use cloud API for status reading, Bridge for commands
+          this.log('Model fetch failed - detected M1 stove');
           this.error('Model error:', modelError.message);
 
-          // Extract MAC address from SSID_wifi in cloud status
-          // The MAC is in the format MCZ-01A6CF12C50732 (without the MCZ- prefix)
-          let macAddress = null;
+          // Get bridge URL from settings or use default
+          const bridgeUrl = settings.bridgeUrl || 'http://10.0.0.38:3000';
+          this.log('Creating Bridge client with URL:', bridgeUrl);
 
-          try {
-            // Try to get status to extract MAC from SSID
-            const status = await cloudClient.getStoveStatus(this.getData().id);
-            if (status.data && status.data.SSID_wifi && status.data.SSID_wifi.startsWith('MCZ-')) {
-              macAddress = status.data.SSID_wifi.replace('MCZ-', '');
-              this.log('Extracted MAC from SSID_wifi:', macAddress);
-            } else if (status.data && status.data.SSID_wifi) {
-              this.log('SSID_wifi found but does not start with MCZ-:', status.data.SSID_wifi);
-            } else {
-              this.log('SSID_wifi not found in status, using hardcoded MAC for testing');
-              // TODO: Add MAC address field to pairing flow
-              // Use MAC with colons (from app screenshot: A6:CF:12:C4:2B:9B)
-              macAddress = 'A6:CF:12:C4:2B:9B';
-            }
-          } catch (error) {
-            this.log('Could not extract MAC from SSID, error:', error.message);
-            // Use hardcoded MAC as fallback (with colons)
-            macAddress = 'A6:CF:12:C4:2B:9B';
-          }
-
-          // If we still couldn't get MAC, fail
-          if (!macAddress) {
-            throw new Error('Could not determine MAC address for Socket.IO connection');
-          }
-
-          // Create Socket.IO client for M1 stove
-          // Use cloud Socket.IO server (stove is cloud-connected)
-          this.log('Creating Socket.IO client with MAC:', macAddress);
-
-          this.apiClient = new SocketIOMaestroClient(
-            settings.serialNumber,
-            macAddress,
-            this,
-            null  // Use default cloud URL: app.mcz.it:9000
-          );
+          // Create bridge client and set cloud client as fallback for status
+          const bridgeClient = new BridgeMaestroClient(bridgeUrl, this);
+          bridgeClient.cloudClient = cloudClient;  // Use cloud for status reading
+          this.apiClient = bridgeClient;
         }
       } catch (loginError) {
         this.error('Login failed:', loginError.message);
@@ -92,8 +62,8 @@ class MaestroStoveDevice extends Homey.Device {
       await this.apiClient.login();
       this.log('Connection successful');
 
-      // Fetch and cache device model configuration (skip for Socket.IO)
-      if (!(this.apiClient instanceof SocketIOMaestroClient)) {
+      // Fetch and cache device model configuration (skip for Bridge)
+      if (!(this.apiClient instanceof BridgeMaestroClient)) {
         const modelId = settings.modelId;
         this.log('Fetching stove model for model ID:', modelId);
 
@@ -105,8 +75,8 @@ class MaestroStoveDevice extends Homey.Device {
           this.model = this._createMinimalModel();
         }
       } else {
-        // Socket.IO M1 stove - use minimal model with M1 sensor IDs
-        this.log('Using M1 Socket.IO model configuration');
+        // Bridge M1 stove - use minimal model with M1 sensor IDs
+        this.log('Using M1 Bridge model configuration');
         this.model = this._createM1Model();
       }
 

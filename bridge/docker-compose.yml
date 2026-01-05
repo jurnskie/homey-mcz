@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  mcz-bridge:
+    image: mcz-bridge:latest
+    container_name: mcz-bridge
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      - NODE_ENV=production
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
