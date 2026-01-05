@@ -27,7 +27,7 @@ MCZ Stove (192.168.120.1:81)
 1. **Copy bridge folder to Synology**:
    ```bash
    # On your Mac
-   scp -r /path/to/your/Code/javascript/homey/bridge YOUR_USERNAME@YOUR_SYNOLOGY_IP:/volume1/docker/mcz-bridge
+   scp -r /path/to/homey/bridge YOUR_USERNAME@YOUR_SYNOLOGY_IP:/volume1/docker/mcz-bridge
    ```
 
 2. **SSH into Synology**:
