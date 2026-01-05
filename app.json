@@ -1,0 +1,254 @@
+{
+  "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
+  "id": "com.mcz.maestro",
+  "version": "1.0.0",
+  "compatibility": ">=12.2.0",
+  "sdk": 3,
+  "platforms": [
+    "local",
+    "cloud"
+  ],
+  "name": {
+    "en": "MCZ Maestro"
+  },
+  "description": {
+    "en": "Control your MCZ Maestro pellet stove"
+  },
+  "category": [
+    "climate"
+  ],
+  "brandColor": "#E74C3C",
+  "author": {
+    "name": "Jurn Spijksma",
+    "email": "[email protected]"
+  },
+  "images": {
+    "small": "/assets/images/app-small.png",
+    "large": "/assets/images/app-large.png",
+    "xlarge": "/assets/images/app-xlarge.png"
+  },
+  "drivers": [
+    {
+      "name": {
+        "en": "MCZ Maestro Stove",
+        "nl": "MCZ Maestro Kachel"
+      },
+      "class": "heater",
+      "capabilities": [
+        "onoff",
+        "target_temperature",
+        "measure_temperature",
+        "thermostat_mode",
+        "measure_power",
+        "alarm_fire",
+        "fan_speed_1",
+        "fan_speed_2",
+        "fan_speed_3",
+        "eco_mode",
+        "power_level",
+        "measure_temperature_ambient",
+        "measure_temperature_exhaust",
+        "measure_temperature_water"
+      ],
+      "capabilitiesOptions": {
+        "target_temperature": {
+          "min": 7,
+          "max": 35,
+          "step": 0.5
+        },
+        "thermostat_mode": {
+          "values": [
+            {
+              "id": "manual",
+              "title": {
+                "en": "Manual",
+                "nl": "Handmatig"
+              }
+            },
+            {
+              "id": "auto",
+              "title": {
+                "en": "Auto",
+                "nl": "Automatisch"
+              }
+            },
+            {
+              "id": "dynamic",
+              "title": {
+                "en": "Dynamic",
+                "nl": "Dynamisch"
+              }
+            },
+            {
+              "id": "turbo",
+              "title": {
+                "en": "Turbo",
+                "nl": "Turbo"
+              }
+            }
+          ]
+        }
+      },
+      "pair": [
+        {
+          "id": "login_credentials",
+          "template": "login_credentials",
+          "options": {
+            "title": {
+              "en": "Connect to MCZ Maestro",
+              "nl": "Verbinden met MCZ Maestro"
+            },
+            "usernameLabel": {
+              "en": "Email or IP Address",
+              "nl": "E-mail of IP-adres"
+            },
+            "usernamePlaceholder": {
+              "en": "[email protected] or 10.0.0.11",
+              "nl": "[email protected] of 10.0.0.11"
+            },
+            "passwordLabel": {
+              "en": "Password (not required for IP)",
+              "nl": "Wachtwoord (niet vereist voor IP)"
+            },
+            "passwordPlaceholder": {
+              "en": "Password",
+              "nl": "Wachtwoord"
+            }
+          }
+        },
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "images": {
+        "small": "/assets/images/small.png",
+        "large": "/assets/images/large.png",
+        "xlarge": "/assets/images/xlarge.png"
+      },
+      "id": "maestro-stove"
+    }
+  ],
+  "capabilities": {
+    "eco_mode": {
+      "type": "boolean",
+      "title": {
+        "en": "Eco Mode",
+        "nl": "Eco Modus"
+      },
+      "getable": true,
+      "setable": true,
+      "uiComponent": "toggle"
+    },
+    "fan_speed_1": {
+      "type": "number",
+      "title": {
+        "en": "Ventilation 1",
+        "nl": "Ventilatie 1"
+      },
+      "units": {
+        "en": "level"
+      },
+      "getable": true,
+      "setable": true,
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "uiComponent": "slider"
+    },
+    "fan_speed_2": {
+      "type": "number",
+      "title": {
+        "en": "Ventilation 2",
+        "nl": "Ventilatie 2"
+      },
+      "units": {
+        "en": "level"
+      },
+      "getable": true,
+      "setable": true,
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "uiComponent": "slider"
+    },
+    "fan_speed_3": {
+      "type": "number",
+      "title": {
+        "en": "Ventilation 3",
+        "nl": "Ventilatie 3"
+      },
+      "units": {
+        "en": "level"
+      },
+      "getable": true,
+      "setable": true,
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "uiComponent": "slider"
+    },
+    "measure_temperature_ambient": {
+      "type": "number",
+      "title": {
+        "en": "Ambient Temperature",
+        "nl": "Omgevingstemperatuur"
+      },
+      "units": {
+        "en": "°C"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor"
+    },
+    "measure_temperature_exhaust": {
+      "type": "number",
+      "title": {
+        "en": "Exhaust Temperature",
+        "nl": "Rookgastemperatuur"
+      },
+      "units": {
+        "en": "°C"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor"
+    },
+    "measure_temperature_water": {
+      "type": "number",
+      "title": {
+        "en": "Water Temperature",
+        "nl": "Watertemperatuur"
+      },
+      "units": {
+        "en": "°C"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor"
+    },
+    "power_level": {
+      "type": "number",
+      "title": {
+        "en": "Power Level",
+        "nl": "Vermogen"
+      },
+      "units": {
+        "en": "level"
+      },
+      "getable": true,
+      "setable": true,
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "uiComponent": "slider"
+    }
+  }
+}

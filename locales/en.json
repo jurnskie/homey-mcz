@@ -1,0 +1,6 @@
+{
+  "login_failed": "Login failed. Please check your credentials.",
+  "list_devices_failed": "Failed to discover devices. Please try again.",
+  "initialization_failed": "Failed to initialize device connection.",
+  "update_failed": "Failed to update device state."
+}

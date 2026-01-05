@@ -1,0 +1,13 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Exhaust Temperature",
+    "nl": "Rookgastemperatuur"
+  },
+  "units": {
+    "en": "°C"
+  },
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor"
+}

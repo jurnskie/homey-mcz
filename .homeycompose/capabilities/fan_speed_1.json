@@ -1,0 +1,16 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Ventilation 1",
+    "nl": "Ventilatie 1"
+  },
+  "units": {
+    "en": "level"
+  },
+  "getable": true,
+  "setable": true,
+  "min": 0,
+  "max": 5,
+  "step": 1,
+  "uiComponent": "slider"
+}

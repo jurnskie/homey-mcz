@@ -1,0 +1,13 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Ambient Temperature",
+    "nl": "Omgevingstemperatuur"
+  },
+  "units": {
+    "en": "°C"
+  },
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor"
+}

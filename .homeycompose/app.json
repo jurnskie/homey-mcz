@@ -1,0 +1,29 @@
+{
+  "id": "com.mcz.maestro",
+  "version": "1.0.0",
+  "compatibility": ">=12.2.0",
+  "sdk": 3,
+  "platforms": [
+    "local",
+    "cloud"
+  ],
+  "name": {
+    "en": "MCZ Maestro"
+  },
+  "description": {
+    "en": "Control your MCZ Maestro pellet stove"
+  },
+  "category": [
+    "climate"
+  ],
+  "brandColor": "#E74C3C",
+  "author": {
+    "name": "Jurn Spijksma",
+    "email": "[email protected]"
+  },
+  "images": {
+    "small": "/assets/images/app-small.png",
+    "large": "/assets/images/app-large.png",
+    "xlarge": "/assets/images/app-xlarge.png"
+  }
+}
